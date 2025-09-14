@@ -1,0 +1,953 @@
+/**
+ * CRYPTO FORECAST DASHBOARD - VANILLA CSS STYLING
+ * ==============================================
+ * Professional dark theme cryptocurrency dashboard with comprehensive styling
+ * Built for vanilla HTML/CSS/JS implementation with detailed explanations
+ */
+
+/* =============================================================================
+   CSS CUSTOM PROPERTIES (CSS VARIABLES)
+   ============================================================================= */
+:root {
+  /* Color Palette - Professional Dark Theme */
+  /* Background colors for different surface levels */
+  --color-background: 23 10% 3%;        /* Deep dark background */
+  --color-card: 24 9% 5%;               /* Elevated card surfaces */
+  --color-muted: 24 6% 8%;              /* Subtle background areas */
+  
+  /* Text colors for hierarchy and readability */
+  --color-foreground: 210 20% 98%;      /* Primary text color */
+  --color-muted-foreground: 215 13% 65%; /* Secondary text color */
+  --color-accent-foreground: 210 20% 98%; /* Accent text */
+  
+  /* Interactive elements and states */
+  --color-primary: 47 96% 53%;          /* Gold/yellow primary brand color */
+  --color-primary-foreground: 26 83% 14%; /* Dark text on primary background */
+  --color-accent: 24 6% 10%;            /* Subtle accent backgrounds */
+  
+  /* Semantic colors for status and feedback */
+  --color-destructive: 0 62% 30%;       /* Error states and warnings */
+  --color-destructive-foreground: 210 20% 98%; /* Text on error backgrounds */
+  --color-success: 142 71% 45%;         /* Success states and positive changes */
+  --color-warning: 38 92% 50%;          /* Warning states */
+  
+  /* Border and outline colors */
+  --color-border: 24 6% 15%;            /* Subtle borders and dividers */
+  --color-input: 24 6% 15%;             /* Form input borders */
+  
+  /* Shadow and elevation effects */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  
+  /* Typography scale and font families */
+  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-size-sm: 0.875rem;    /* 14px - Small text, help text */
+  --font-size-base: 1rem;      /* 16px - Base body text */
+  --font-size-lg: 1.125rem;    /* 18px - Emphasized text */
+  --font-size-xl: 1.25rem;     /* 20px - Headings */
+  --font-size-2xl: 1.5rem;     /* 24px - Large headings */
+  --font-size-3xl: 1.875rem;   /* 30px - Page titles */
+  
+  /* Spacing scale using 8px base unit */
+  --spacing-1: 0.25rem;  /* 4px */
+  --spacing-2: 0.5rem;   /* 8px */
+  --spacing-3: 0.75rem;  /* 12px */
+  --spacing-4: 1rem;     /* 16px */
+  --spacing-5: 1.25rem;  /* 20px */
+  --spacing-6: 1.5rem;   /* 24px */
+  --spacing-8: 2rem;     /* 32px */
+  --spacing-10: 2.5rem;  /* 40px */
+  --spacing-12: 3rem;    /* 48px */
+  
+  /* Border radius scale for consistent rounding */
+  --radius-sm: 0.125rem;   /* 2px - Subtle rounding */
+  --radius-md: 0.375rem;   /* 6px - Default rounding */
+  --radius-lg: 0.5rem;     /* 8px - More pronounced rounding */
+  --radius-xl: 0.75rem;    /* 12px - Card-level rounding */
+  
+  /* Animation and transition properties */
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 250ms ease-in-out;
+  --transition-slow: 500ms ease-in-out;
+}
+
+/* =============================================================================
+   GLOBAL RESET AND BASE STYLES
+   ============================================================================= */
+
+/* Modern CSS reset for consistent cross-browser behavior */
+*, *::before, *::after {
+  box-sizing: border-box;  /* Include padding and borders in element width/height */
+  margin: 0;               /* Remove default margins */
+  padding: 0;              /* Remove default padding */
+}
+
+/* Base HTML and body styling for full-height dark theme */
+html {
+  font-size: 16px;         /* Set base font size for rem calculations */
+  scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+}
+
+body {
+  /* Color scheme using HSL values from CSS custom properties */
+  background-color: hsl(var(--color-background));
+  color: hsl(var(--color-foreground));
+  
+  /* Typography settings */
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  line-height: 1.5;           /* Comfortable reading line height */
+  
+  /* Rendering optimizations */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Prevent horizontal scroll and ensure full viewport coverage */
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* =============================================================================
+   MAIN APPLICATION LAYOUT
+   ============================================================================= */
+
+/* Primary application container with full viewport coverage */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;        /* Ensure footer stays at bottom */
+  background-color: hsl(var(--color-background));
+}
+
+/* Dashboard header with branding and navigation */
+.dashboard-header {
+  background-color: hsl(var(--color-card));
+  border-bottom: 1px solid hsl(var(--color-border));
+  padding: var(--spacing-6) var(--spacing-8);
+  
+  /* Center content horizontally */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-2);
+}
+
+/* Header title section with icon and text */
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.header-title h1 {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  color: hsl(var(--color-foreground));
+  margin: 0;
+}
+
+.title-icon {
+  width: 2rem;
+  height: 2rem;
+  color: hsl(var(--color-primary));
+}
+
+/* Subtitle with model information */
+.header-subtitle {
+  color: hsl(var(--color-muted-foreground));
+  font-size: var(--font-size-lg);
+  font-weight: 400;
+}
+
+/* Main dashboard content area with sidebar and results */
+.dashboard-main {
+  display: grid;
+  grid-template-columns: 400px 1fr;  /* Fixed sidebar width, flexible content */
+  gap: var(--spacing-8);
+  padding: var(--spacing-8);
+  flex: 1;                           /* Take remaining space, pushing footer down */
+  align-items: start;                /* Align items to top */
+}
+
+/* =============================================================================
+   SIDEBAR CONFIGURATION PANEL
+   ============================================================================= */
+
+/* Left sidebar with configuration controls */
+.config-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+/* Configuration card container */
+.config-card {
+  background-color: hsl(var(--color-card));
+  border: 1px solid hsl(var(--color-border));
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;             /* Ensure content doesn't overflow rounded corners */
+}
+
+/* Card header with title and icon */
+.card-header {
+  padding: var(--spacing-6);
+  border-bottom: 1px solid hsl(var(--color-border));
+  background-color: hsl(var(--color-muted));
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.card-title h2 {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: hsl(var(--color-foreground));
+  margin: 0;
+}
+
+.card-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: hsl(var(--color-primary));
+}
+
+/* Card content with form controls */
+.card-content {
+  padding: var(--spacing-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+/* =============================================================================
+   FORM CONTROLS AND INPUT STYLING
+   ============================================================================= */
+
+/* Form group container for consistent spacing */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+/* Form row for side-by-side controls */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-4);
+}
+
+/* Form labels with consistent styling */
+.form-label {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: hsl(var(--color-foreground));
+  margin-bottom: var(--spacing-1);
+}
+
+/* Date input wrapper with icon */
+.date-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Date input field styling */
+.date-input {
+  width: 100%;
+  padding: var(--spacing-3) var(--spacing-4);
+  padding-right: var(--spacing-10);  /* Space for calendar icon */
+  
+  /* Visual styling */
+  background-color: hsl(var(--color-background));
+  border: 1px solid hsl(var(--color-input));
+  border-radius: var(--radius-md);
+  
+  /* Typography */
+  color: hsl(var(--color-foreground));
+  font-size: var(--font-size-base);
+  font-family: inherit;
+  
+  /* Interactions */
+  transition: border-color var(--transition-fast);
+}
+
+/* Date input focus state */
+.date-input:focus {
+  outline: none;
+  border-color: hsl(var(--color-primary));
+  box-shadow: 0 0 0 3px hsl(var(--color-primary) / 0.1);
+}
+
+/* Calendar icon inside date input */
+.date-icon {
+  position: absolute;
+  right: var(--spacing-3);
+  width: 1rem;
+  height: 1rem;
+  color: hsl(var(--color-muted-foreground));
+  pointer-events: none;  /* Allow clicks to pass through to input */
+}
+
+/* Number input for forecast days */
+.number-input {
+  width: 100%;
+  padding: var(--spacing-3) var(--spacing-4);
+  
+  /* Visual styling matching date inputs */
+  background-color: hsl(var(--color-background));
+  border: 1px solid hsl(var(--color-input));
+  border-radius: var(--radius-md);
+  
+  /* Typography */
+  color: hsl(var(--color-foreground));
+  font-size: var(--font-size-base);
+  font-family: inherit;
+  
+  /* Interactions */
+  transition: border-color var(--transition-fast);
+}
+
+.number-input:focus {
+  outline: none;
+  border-color: hsl(var(--color-primary));
+  box-shadow: 0 0 0 3px hsl(var(--color-primary) / 0.1);
+}
+
+/* Date display for calculated end date */
+.date-display {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-4);
+  background-color: hsl(var(--color-muted));
+  border: 1px solid hsl(var(--color-border));
+  border-radius: var(--radius-md);
+  color: hsl(var(--color-muted-foreground));
+  font-size: var(--font-size-base);
+}
+
+/* Help text below form controls */
+.form-help {
+  font-size: var(--font-size-sm);
+  color: hsl(var(--color-muted-foreground));
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* =============================================================================
+   FORECAST SUMMARY AND ACTION CONTROLS
+   ============================================================================= */
+
+/* Forecast summary information panel */
+.forecast-summary {
+  background-color: hsl(var(--color-muted));
+  border: 1px solid hsl(var(--color-border));
+  border-radius: var(--radius-md);
+  padding: var(--spacing-4);
+}
+
+.summary-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: hsl(var(--color-muted-foreground));
+  font-size: var(--font-size-sm);
+}
+
+.summary-icon {
+  width: 1rem;
+  height: 1rem;
+  color: hsl(var(--color-primary));
+}
+
+/* Primary action button for generating forecasts */
+.generate-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  
+  /* Layout and spacing */
+  width: 100%;
+  padding: var(--spacing-4) var(--spacing-6);
+  
+  /* Visual styling */
+  background-color: hsl(var(--color-primary));
+  color: hsl(var(--color-primary-foreground));
+  border: none;
+  border-radius: var(--radius-md);
+  
+  /* Typography */
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  font-family: inherit;
+  
+  /* Interactions */
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+/* Button hover state with subtle elevation */
+.generate-button:hover {
+  background-color: hsl(var(--color-primary) / 0.9);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Button pressed state */
+.generate-button:active {
+  transform: translateY(0);
+}
+
+/* Button disabled state during loading */
+.generate-button:disabled {
+  background-color: hsl(var(--color-muted));
+  color: hsl(var(--color-muted-foreground));
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.button-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* =============================================================================
+   VALIDATION AND ERROR MESSAGING
+   ============================================================================= */
+
+/* Validation messages container */
+.validation-messages {
+  padding: var(--spacing-4);
+  background-color: hsl(var(--color-destructive) / 0.1);
+  border: 1px solid hsl(var(--color-destructive) / 0.3);
+  border-radius: var(--radius-md);
+  color: hsl(var(--color-destructive-foreground));
+}
+
+.validation-messages p {
+  font-size: var(--font-size-sm);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Utility class to hide elements */
+.hidden {
+  display: none !important;
+}
+
+/* =============================================================================
+   RESULTS PANEL AND CONTENT AREA
+   ============================================================================= */
+
+/* Right side results panel */
+.results-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+  min-height: 600px;  /* Ensure consistent height */
+}
+
+/* Loading state display */
+.loading-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  background-color: hsl(var(--color-card));
+  border: 1px solid hsl(var(--color-border));
+  border-radius: var(--radius-xl);
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-4);
+  text-align: center;
+}
+
+/* CSS spinner animation */
+.loading-spinner {
+  width: 3rem;
+  height: 3rem;
+  border: 3px solid hsl(var(--color-border));
+  border-top: 3px solid hsl(var(--color-primary));
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-content h3 {
+  font-size: var(--font-size-xl);
+  color: hsl(var(--color-foreground));
+  margin: 0;
+}
+
+.loading-content p {
+  color: hsl(var(--color-muted-foreground));
+  margin: 0;
+}
+
+/* Error state display */
+.error-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  background-color: hsl(var(--color-card));
+  border: 1px solid hsl(var(--color-destructive) / 0.3);
+  border-radius: var(--radius-xl);
+}
+
+.error-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-4);
+  text-align: center;
+  max-width: 400px;
+  padding: var(--spacing-6);
+}
+
+.error-icon {
+  width: 3rem;
+  height: 3rem;
+  color: hsl(var(--color-destructive));
+}
+
+.error-content h3 {
+  font-size: var(--font-size-xl);
+  color: hsl(var(--color-destructive-foreground));
+  margin: 0;
+}
+
+.error-content p {
+  color: hsl(var(--color-muted-foreground));
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Retry button styling */
+.retry-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-5);
+  
+  background-color: hsl(var(--color-destructive));
+  color: hsl(var(--color-destructive-foreground));
+  border: none;
+  border-radius: var(--radius-md);
+  
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.retry-button:hover {
+  background-color: hsl(var(--color-destructive) / 0.9);
+}
+
+/* =============================================================================
+   METRICS CARDS AND KEY PERFORMANCE INDICATORS
+   ============================================================================= */
+
+/* Results content container */
+.results-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+}
+
+/* Metrics row with key performance indicators */
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-4);
+}
+
+/* Individual metric card */
+.metric-card {
+  background-color: hsl(var(--color-card));
+  border: 1px solid hsl(var(--color-border));
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-5);
+  
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  
+  transition: all var(--transition-fast);
+}
+
+/* Subtle hover effect for metric cards */
+.metric-card:hover {
+  border-color: hsl(var(--color-border) / 0.8);
+  box-shadow: var(--shadow-md);
+}
+
+/* Metric card header with icon and label */
+.metric-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.metric-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: hsl(var(--color-primary));
+}
+
+.metric-label {
+  font-size: var(--font-size-sm);
+  color: hsl(var(--color-muted-foreground));
+  font-weight: 500;
+}
+
+/* Metric value display */
+.metric-value {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: hsl(var(--color-foreground));
+  line-height: 1.2;
+}
+
+/* Special styling for positive/negative changes */
+.metric-value.positive {
+  color: hsl(var(--color-success));
+}
+
+.metric-value.negative {
+  color: hsl(var(--color-destructive));
+}
+
+/* =============================================================================
+   CHART VISUALIZATION SECTION
+   ============================================================================= */
+
+/* Chart section container */
+.chart-section {
+  background-color: hsl(var(--color-card));
+  border: 1px solid hsl(var(--color-border));
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-6);
+  margin-bottom: 2rem;
+}
+
+/* Chart section header */
+.chart-header {
+  margin-bottom: var(--spacing-6);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-header h3 {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: hsl(var(--color-foreground));
+  margin: 0 0 var(--spacing-2) 0;
+}
+
+.chart-header p {
+  color: hsl(var(--color-muted-foreground));
+  margin: 0;
+}
+
+/* Chart container with responsive sizing */
+.chart-container {
+  position: relative;
+  height: 400px;          /* Fixed height for consistent layout */
+  width: 100%;
+  background-color: hsl(var(--color-background));
+  border-radius: var(--radius-md);
+  padding: var(--spacing-4);
+}
+
+/* Chart canvas element */
+#forecast-chart {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* =============================================================================
+   DATA TABLE SECTION
+   ============================================================================= */
+
+/* Table section container */
+.table-section {
+  background-color: hsl(var(--color-card));
+  border: 1px solid hsl(var(--color-border));
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-6);
+}
+
+/* Table section header */
+.table-header {
+  margin-bottom: var(--spacing-6);
+  text-align: center;
+}
+
+.table-header h3 {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: hsl(var(--color-foreground));
+  margin: 0 0 var(--spacing-2) 0;
+}
+
+.table-header p {
+  color: hsl(var(--color-muted-foreground));
+  margin: 0;
+}
+
+/* Scrollable table container */
+.table-container {
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid hsl(var(--color-border));
+}
+
+/* Data table styling */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: hsl(var(--color-background));
+}
+
+/* Table header styling */
+.data-table thead {
+  background-color: hsl(var(--color-muted));
+}
+
+.data-table th {
+  padding: var(--spacing-4) var(--spacing-5);
+  text-align: left;
+  font-weight: 600;
+  color: hsl(var(--color-foreground));
+  font-size: var(--font-size-sm);
+  border-bottom: 1px solid hsl(var(--color-border));
+}
+
+/* Table body row styling */
+.data-table tbody tr {
+  border-bottom: 1px solid hsl(var(--color-border));
+  transition: background-color var(--transition-fast);
+}
+
+.data-table tbody tr:hover {
+  background-color: hsl(var(--color-muted) / 0.3);
+}
+
+/* Table cell styling */
+.data-table td {
+  padding: var(--spacing-4) var(--spacing-5);
+  color: hsl(var(--color-foreground));
+  font-size: var(--font-size-sm);
+  vertical-align: middle;
+}
+
+/* Special styling for price and change columns */
+.data-table .price-cell {
+  font-weight: 600;
+  font-family: 'Monaco', 'Menlo', monospace;
+}
+
+.data-table .change-cell.positive {
+  color: hsl(var(--color-success));
+  font-weight: 500;
+}
+
+.data-table .change-cell.negative {
+  color: hsl(var(--color-destructive));
+  font-weight: 500;
+}
+
+/* =============================================================================
+   FOOTER SECTION
+   ============================================================================= */
+
+/* Dashboard footer */
+.dashboard-footer {
+  background-color: hsl(var(--color-card));
+  border-top: 1px solid hsl(var(--color-border));
+  padding: var(--spacing-6) var(--spacing-8);
+  margin-top: auto;  /* Push to bottom of page */
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+  text-align: center;
+}
+
+.footer-content p {
+  color: hsl(var(--color-muted-foreground));
+  font-size: var(--font-size-sm);
+  margin: 0;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  font-size: var(--font-size-sm);
+  color: hsl(var(--color-muted-foreground));
+}
+
+/* =============================================================================
+   RESPONSIVE DESIGN AND MOBILE ADAPTATIONS
+   ============================================================================= */
+
+/* Tablet and smaller desktop screens */
+@media (max-width: 1200px) {
+  .dashboard-main {
+    grid-template-columns: 350px 1fr;
+    gap: var(--spacing-6);
+    padding: var(--spacing-6);
+  }
+  
+  .metrics-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-3);
+  }
+}
+
+/* Tablet portrait and mobile landscape */
+@media (max-width: 768px) {
+  .dashboard-main {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-6);
+    padding: var(--spacing-4);
+  }
+  
+  .dashboard-header {
+    padding: var(--spacing-4) var(--spacing-6);
+  }
+  
+  .header-title h1 {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .metrics-row {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-4);
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-4);
+  }
+  
+  .chart-container {
+    height: 300px;
+  }
+}
+
+/* Mobile portrait */
+@media (max-width: 480px) {
+  .dashboard-header {
+    padding: var(--spacing-3) var(--spacing-4);
+  }
+  
+  .header-title {
+    flex-direction: column;
+    gap: var(--spacing-2);
+  }
+  
+  .header-title h1 {
+    font-size: var(--font-size-xl);
+  }
+  
+  .dashboard-main {
+    padding: var(--spacing-3);
+  }
+  
+  .card-content {
+    padding: var(--spacing-4);
+  }
+  
+  .chart-container {
+    height: 250px;
+  }
+  
+  .table-container {
+    font-size: var(--font-size-sm);
+  }
+  
+  .data-table th,
+  .data-table td {
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+}
+
+/* =============================================================================
+   UTILITY CLASSES AND ANIMATIONS
+   ============================================================================= */
+
+/* Fade in animation for content loading */
+.fade-in {
+  animation: fadeIn var(--transition-normal) ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide up animation for cards and sections */
+.slide-up {
+  animation: slideUp var(--transition-normal) ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus visible styles for accessibility */
+.focus-visible {
+  outline: 2px solid hsl(var(--color-primary));
+  outline-offset: 2px;
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

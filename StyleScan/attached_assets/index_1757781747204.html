@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic HTML5 metadata for proper rendering and SEO -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Forecast Dashboard - Prophet ML Ethereum Predictions</title>
+    
+    <!-- SEO and social media sharing metadata -->
+    <meta name="description" content="Professional cryptocurrency forecasting dashboard displaying real Prophet machine learning model predictions for Ethereum prices with interactive date range selection.">
+    <meta property="og:title" content="Crypto Forecast Dashboard - Prophet ML Ethereum Predictions">
+    <meta property="og:description" content="View real-time Ethereum price forecasts using advanced Prophet machine learning models with interactive charts and analytics.">
+    <meta property="og:type" content="website">
+    
+    <!-- External dependencies for chart functionality and icons -->
+    <!-- Chart.js - Powerful charting library for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons - Modern icon library for UI elements -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Link to external stylesheet for all visual styling -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Main application container with full viewport height -->
+    <div class="app-container">
+        
+        <!-- Dashboard Header Section -->
+        <header class="dashboard-header">
+            <!-- Main application title with branding icon -->
+            <div class="header-title">
+                <i data-lucide="trending-up" class="title-icon"></i>
+                <h1>Crypto Forecast Dashboard</h1>
+            </div>
+            
+            <!-- Subtitle with model information -->
+            <p class="header-subtitle">
+                Prophet ML Model • Ethereum Price Predictions
+            </p>
+        </header>
+
+        <!-- Main Dashboard Content Area -->
+        <main class="dashboard-main">
+            
+            <!-- Left Sidebar: Configuration Panel -->
+            <aside class="config-panel">
+                <!-- Forecast Configuration Card -->
+                <div class="config-card">
+                    <!-- Card header with settings icon and title -->
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i data-lucide="settings" class="card-icon"></i>
+                            <h2>Forecast Configuration</h2>
+                        </div>
+                    </div>
+                    
+                    <!-- Card content with form controls -->
+                    <div class="card-content">
+                        
+                        <!-- Start Date Selection -->
+                        <div class="form-group">
+                            <label for="start-date" class="form-label">Start Date</label>
+                            <div class="date-input-wrapper">
+                                <!-- Date input with calendar icon -->
+                                <input 
+                                    type="date" 
+                                    id="start-date" 
+                                    class="date-input"
+                                    data-testid="input-start-date"
+                                    value="2025-08-09"
+                                    min="2025-08-09"
+                                    max="2025-09-01"
+                                >
+                                <i data-lucide="calendar" class="date-icon"></i>
+                            </div>
+                            <p class="form-help">Beginning of forecast period to display</p>
+                        </div>
+                        
+                        <!-- Forecast Days Input and End Date Display -->
+                        <div class="form-row">
+                            <!-- Number of days input -->
+                            <div class="form-group">
+                                <label for="forecast-days" class="form-label">Forecast Days</label>
+                                <input 
+                                    type="number" 
+                                    id="forecast-days" 
+                                    class="number-input"
+                                    data-testid="input-forecast-days"
+                                    value="7"
+                                    min="1"
+                                    max="24"
+                                >
+                            </div>
+                            
+                            <!-- End date display (calculated automatically) -->
+                            <div class="form-group">
+                                <label class="form-label">End Date</label>
+                                <div class="date-display">
+                                    <i data-lucide="calendar" class="date-icon"></i>
+                                    <span id="end-date-display" data-testid="text-end-date">Aug 15</span>
+                                </div>
+                                <p class="form-help">End of forecast period to display</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Forecast Summary Information -->
+                        <div class="forecast-summary">
+                            <div class="summary-content">
+                                <i data-lucide="info" class="summary-icon"></i>
+                                <span id="forecast-period-text" data-testid="text-forecast-period">
+                                    Showing 7 days of Prophet predictions
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Generate Forecast Button -->
+                        <button 
+                            id="generate-forecast-btn" 
+                            class="generate-button"
+                            data-testid="button-generate-forecast"
+                        >
+                            <i data-lucide="play-circle" class="button-icon"></i>
+                            <span id="generate-button-text">Generate Forecast</span>
+                        </button>
+                        
+                        <!-- Validation Messages Container -->
+                        <div id="validation-messages" class="validation-messages hidden">
+                            <!-- Error messages will be dynamically inserted here -->
+                        </div>
+                        
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Content Area: Results and Visualizations -->
+            <section class="results-panel">
+                
+                <!-- Loading State Display -->
+                <div id="loading-state" class="loading-state hidden">
+                    <div class="loading-content">
+                        <div class="loading-spinner"></div>
+                        <h3>Generating Forecast...</h3>
+                        <p>Loading Prophet ML predictions for Ethereum</p>
+                    </div>
+                </div>
+                
+                <!-- Error State Display -->
+                <div id="error-state" class="error-state hidden">
+                    <div class="error-content">
+                        <i data-lucide="alert-triangle" class="error-icon"></i>
+                        <h3>Forecast Generation Failed</h3>
+                        <p id="error-message" data-testid="text-error-message">An error occurred while loading the forecast data.</p>
+                        <button id="retry-button" class="retry-button" data-testid="button-retry">
+                            <i data-lucide="refresh-cw" class="button-icon"></i>
+                            Try Again
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Main Results Content (shown when data is loaded) -->
+                <div id="results-content" class="results-content">
+                    
+                    <!-- Key Metrics Cards Row -->
+                    <div class="metrics-row">
+                        <!-- Current Price Card -->
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <i data-lucide="dollar-sign" class="metric-icon"></i>
+                                <span class="metric-label">Current Price</span>
+                            </div>
+                            <div class="metric-value" id="current-price" data-testid="text-current-price">
+                                $0.00
+                            </div>
+                        </div>
+                        
+                        <!-- Predicted Price Card -->
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <i data-lucide="target" class="metric-icon"></i>
+                                <span class="metric-label">Predicted Price</span>
+                            </div>
+                            <div class="metric-value" id="predicted-price" data-testid="text-predicted-price">
+                                $0.00
+                            </div>
+                        </div>
+                        
+                        <!-- Price Change Card -->
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <i data-lucide="trending-up" class="metric-icon"></i>
+                                <span class="metric-label">Forecast Change</span>
+                            </div>
+                            <div class="metric-value" id="price-change" data-testid="text-price-change">
+                                +0.0%
+                            </div>
+                        </div>
+                        
+                        <!-- Date Range Card -->
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <i data-lucide="calendar-range" class="metric-icon"></i>
+                                <span class="metric-label">Forecast Period</span>
+                            </div>
+                            <div class="metric-value" id="date-range" data-testid="text-date-range">
+                                Aug 9–15, 2025
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chart Visualization Section -->
+                    <div class="chart-section">
+                        <div class="chart-header">
+                            <h3>Price Forecast Visualization</h3>
+                            <p>Prophet ML model predictions with trend analysis</p>
+                        </div>
+                        <!-- Chart canvas element where Chart.js will render -->
+                        <div class="chart-container">
+                            <canvas id="forecast-chart" data-testid="chart-forecast"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Comparison Chart Section -->
+                    <div class="chart-section">
+                        <div class="chart-header">
+                            <h3>Historical vs Forecast Comparison</h3>
+                            <p>Comparing historical data with model predictions</p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="comparison-chart" data-testid="chart-comparison"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Data Table Section -->
+                    <div class="table-section">
+                        <div class="table-header">
+                            <h3>Forecast Data Table</h3>
+                            <p>Detailed daily predictions from Prophet model</p>
+                        </div>
+                        
+                        <!-- Scrollable table container -->
+                        <div class="table-container">
+                            <table id="forecast-table" class="data-table" data-testid="table-forecast-data">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Day</th>
+                                        <th>Predicted Price</th>
+                                        <th>Change</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="forecast-table-body">
+                                    <!-- Table rows will be dynamically generated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                </div>
+            </section>
+        </main>
+        
+        <!-- Footer with application information -->
+        <footer class="dashboard-footer">
+            <div class="footer-content">
+                <p>© 2025 Crypto Forecast Dashboard • Powered by Prophet Machine Learning</p>
+                <div class="footer-links">
+                    <span>Real-time Ethereum predictions</span>
+                    <span>•</span>
+                    <span>Professional trading insights</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JavaScript functionality - loaded at the end for better performance -->
+    <script src="script.js"></script>
+    
+    <!-- Initialize Lucide icons after page load -->
+    <script>
+        // Initialize all Lucide icons in the document
+        // This must happen after the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
